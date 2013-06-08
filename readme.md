@@ -1,13 +1,14 @@
-# Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-webapp.png?branch=master)](http://travis-ci.org/yeoman/generator-webapp)
+# Sharepoint 2013 generator
 
-Yeoman generator for scaffolding out a front-end web app.
+Yeoman generator for scaffolding out a SharePoint 2013 HTML Master & Page
+Layouts project.
 
 
 ## Getting Started
 
 - Make sure you have [yo](https://github.com/yeoman/yo) installed: `npm install -g yo`
-- Install the generator: `npm install -g generator-webapp`
-- Run: `yo webapp`
+- Install the generator: `npm install -g generator-sp2013`
+- Run: `yo sp2013`
 - Run `grunt` for building and `grunt server` for preview
 
 
@@ -26,7 +27,7 @@ Yeoman generator for scaffolding out a front-end web app.
 
 ## Contribute
 
-See the [contributing docs](https://github.com/yeoman/yeoman/blob/master/contributing.md)
+Todo...
 
 
 ## License
