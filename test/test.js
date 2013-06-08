@@ -33,7 +33,6 @@ describe('Webapp generator test', function () {
       ['package.json', /"name": "temp"/],
       'Gruntfile.js',
       'app/favicon.ico',
-      'app/robots.txt',
       'app/index.html',
       'app/scripts/hello.coffee',
       'app/scripts/main.js',
@@ -58,7 +57,6 @@ describe('Webapp generator test', function () {
       ['package.json', /"name": "temp"/],
       'Gruntfile.js',
       'app/favicon.ico',
-      'app/robots.txt',
       'app/index.html',
       ['app/scripts/main.js', /require\.config/],
       'app/styles/main.scss'
