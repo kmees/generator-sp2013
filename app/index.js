@@ -39,6 +39,10 @@ AppGenerator.prototype.askFor = function askFor() {
   console.log('Out of the box I include HTML5 Boilerplate, jQuery and Modernizr.');
 
   var prompts = [{
+    name: 'masterName',
+    message: 'What is the name of your master file?'
+  },
+  {
     type: 'confirm',
     name: 'compassBootstrap',
     message: 'Would you like to include Twitter Bootstrap for Sass?',
@@ -63,6 +67,7 @@ AppGenerator.prototype.askFor = function askFor() {
     this.compassBootstrap = props.compassBootstrap;
     this.includeRequireJS = props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
+    this.masterName = props.masterName;
 
     cb();
   }.bind(this));
