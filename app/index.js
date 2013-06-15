@@ -20,7 +20,6 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   this.hookFor('test-framework', { as: 'app' });
 
   this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
-  this.mainJsFile = '';
   this.mainCoffeeFile = 'console.log "\'Allo from CoffeeScript!"';
 
   this.on('end', function () {
@@ -36,18 +35,7 @@ AppGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
   // welcome message
-  var welcome =
-  '\n     _-----_' +
-  '\n    |       |' +
-  '\n    |'+'--(o)--'.red+'|   .--------------------------.' +
-  '\n   `---------´  |    '+'Welcome to Yeoman,'.yellow.bold+'    |' +
-  '\n    '+'( '.yellow+'_'+'´U`'.yellow+'_'+' )'.yellow+'   |   '+'ladies and gentlemen!'.yellow.bold+'  |' +
-  '\n    /___A___\\   \'__________________________\'' +
-  '\n     |  ~  |'.yellow +
-  '\n   __'+'\'.___.\''.yellow+'__' +
-  '\n ´   '+'`  |'.red+'° '+'´ Y'.red+' `\n';
-
-  console.log(welcome);
+  console.log(this.yeoman);
   console.log('Out of the box I include HTML5 Boilerplate, jQuery and Modernizr.');
 
   var prompts = [{
@@ -61,6 +49,12 @@ AppGenerator.prototype.askFor = function askFor() {
     name: 'includeRequireJS',
     message: 'Would you like to include RequireJS (for AMD support)?',
     default: true
+  },
+  {
+    type: 'confirm',
+    name: 'autoprefixer',
+    message: 'Would you like to use autoprefixer for your CSS?',
+    default: false
   }];
 
   this.prompt(prompts, function (props) {
@@ -68,6 +62,7 @@ AppGenerator.prototype.askFor = function askFor() {
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.compassBootstrap = props.compassBootstrap;
     this.includeRequireJS = props.includeRequireJS;
+    this.autoprefixer = props.autoprefixer;
 
     cb();
   }.bind(this));
@@ -176,8 +171,6 @@ AppGenerator.prototype.writeIndex = function writeIndex() {
 
   if (this.includeRequireJS) {
     defaults.push('RequireJS');
-  } else {
-    this.mainJsFile = 'console.log(\'\\\'Allo \\\'Allo!\');';
   }
 
   // iterate over defaults and create content string
@@ -200,44 +193,24 @@ AppGenerator.prototype.writeIndex = function writeIndex() {
 
 // TODO(mklabs): to be put in a subgenerator like rjs:app
 AppGenerator.prototype.requirejs = function requirejs() {
-  var requiredScripts = (this.compassBootstrap) ? '[\'app\', \'jquery\', \'bootstrap\']' : '[\'app\', \'jquery\']';
-  var bootstrapPath = (this.compassBootstrap) ? '        bootstrap: \'vendor/bootstrap\'\n    },' : '    },';
-
-  if (this.includeRequireJS) {
-    this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', ['bower_components/requirejs/require.js'], {
-      'data-main': 'scripts/main'
-    });
-
-    // add a basic amd module
-    this.write('app/scripts/app.js', [
-      '/*global define */',
-      'define([], function () {',
-      '    \'use strict\';\n',
-      '    return \'\\\'Allo \\\'Allo!\';',
-      '});'
-    ].join('\n'));
-
-    this.mainJsFile = [
-      'require.config({',
-      '    paths: {',
-      '        jquery: \'../bower_components/jquery/jquery\',',
-      bootstrapPath,
-      '    shim: {',
-      '        bootstrap: {',
-      '            deps: [\'jquery\'],',
-      '            exports: \'jquery\'',
-      '        }',
-      '    }',
-      '});',
-      '',
-      'require(' + requiredScripts + ', function (app, $) {',
-      '    \'use strict\';',
-      '    // use app here',
-      '    console.log(app);',
-      '    console.log(\'Running jQuery %s\', $().jquery);',
-      '});'
-    ].join('\n');
+  if (!this.includeRequireJS) {
+    return;
   }
+
+  this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', ['bower_components/requirejs/require.js'], {
+    'data-main': 'scripts/main'
+  });
+
+  // add a basic amd module
+  this.write('app/scripts/app.js', [
+    '/*global define */',
+    'define([], function () {',
+    '    \'use strict\';\n',
+    '    return \'\\\'Allo \\\'Allo!\';',
+    '});'
+  ].join('\n'));
+
+  this.template('require_main.js', 'app/scripts/main.js');
 };
 
 AppGenerator.prototype.app = function app() {
@@ -246,6 +219,8 @@ AppGenerator.prototype.app = function app() {
   this.mkdir('app/styles');
   this.mkdir('app/images');
   this.write('app/index.html', this.indexFile);
-  this.write('app/scripts/main.js', this.mainJsFile);
   this.write('app/scripts/hello.coffee', this.mainCoffeeFile);
+  if (!this.includeRequireJS) {
+    this.write('app/scripts/main.js', 'console.log(\'\\\'Allo \\\'Allo!\');');
+  }
 };
