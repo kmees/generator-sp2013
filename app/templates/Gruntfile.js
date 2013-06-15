@@ -21,11 +21,11 @@ module.exports = function (grunt) {
         app: 'app',
         dist: 'dist',
         tmp: '.tmp',
-        master: '<%= _.slugify(masterName) %>'
+        master: '<%= masterSlug %>'
     };
-    yeomanConfig.appMaster = yeomanConfig.app + "/" + yeomanConfig.master;
-    yeomanConfig.distMaster = yeomanConfig.dist + "/" + yeomanConfig.master;
-    yeomanConfig.tmpMaster = yeomanConfig.tmp + "/" + yeomanConfig.master;
+    yeomanConfig.appMaster = yeomanConfig.app + '/' + yeomanConfig.master;
+    yeomanConfig.distMaster = yeomanConfig.dist + '/' + yeomanConfig.master;
+    yeomanConfig.tmpMaster = yeomanConfig.tmp + '/' + yeomanConfig.master;
 
     grunt.initConfig({
         yeoman: yeomanConfig,
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
                 livereload: false
             },
             gruntfile: {
-              files: ["Gruntfile.{js,coffee}"]
+              files: ['Gruntfile.{js,coffee}']
             },
             coffee: {
                 files: ['<%%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -54,8 +54,8 @@ module.exports = function (grunt) {
                 tasks: ['copy:styles', 'autoprefixer']
             },<% } %>
             jade: {
-              files: ["app/jade/{,*/}*.jade"],
-              tasks: ["jade"]
+              files: ['app/jade/{,*/}*.jade'],
+              tasks: ['jade']
             },
             livereload: {
                 options: {
@@ -254,13 +254,13 @@ module.exports = function (grunt) {
             options: {
                 dest: '<%%= yeoman.dist %>'
             },
-            html: '{<%%= yeoman.tmp %>,<%%= yeoman.app %>/*.html'
+            html: ['<%%= yeoman.tmp %>/*.html','<%%= yeoman.app %>/*.html']
         },
         usemin: {
             options: {
                 dirs: ['<%%= yeoman.dist %>']
             },
-            html: ['{<%%= yeoman.dist %>}/{,*/}*.html'],
+            html: ['<%%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%%= yeoman.distMaster %>/styles/{,*/}*.css']
         },
         imagemin: {
@@ -395,7 +395,7 @@ module.exports = function (grunt) {
                 options: {
                   client: false,
                   basePath: '<%%= yeoman.app %>/jade',
-                  pretty: true
+                  pretty: true,
                   locals: {
                     imagePath: '<%%= yeoman.master %>/images',
                     stylePath: '<%%= yeoman.master %>/styles',
