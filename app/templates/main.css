@@ -4,19 +4,18 @@ body {
     color: #333;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+#header, #footer, #page-layout {
+  border: 3px solid black;
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  margin: 0 0 20px 0;
+
+  color: white;
+  background: rgb(0, 114, 198);
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+#page-layout {
+  color: black;
+  background: rgba(239, 239, 239, 0.780392);
 }
