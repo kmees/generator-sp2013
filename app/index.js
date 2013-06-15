@@ -48,12 +48,12 @@ AppGenerator.prototype.askFor = function askFor() {
     message: 'Would you like to include Twitter Bootstrap for Sass?',
     default: true
   },
-  {
-    type: 'confirm',
-    name: 'includeRequireJS',
-    message: 'Would you like to include RequireJS (for AMD support)?',
-    default: true
-  },
+  // {
+  //   type: 'confirm',
+  //   name: 'includeRequireJS',
+  //   message: 'Would you like to include RequireJS (for AMD support)?',
+  //   default: true
+  // },
   {
     type: 'confirm',
     name: 'autoprefixer',
@@ -65,7 +65,7 @@ AppGenerator.prototype.askFor = function askFor() {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
     this.compassBootstrap = props.compassBootstrap;
-    this.includeRequireJS = props.includeRequireJS;
+    this.includeRequireJS = false;//props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
     this.masterName = props.masterName;
     this.masterSlug = _.slugify(this.masterName);
