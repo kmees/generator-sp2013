@@ -396,6 +396,11 @@ module.exports = function (grunt) {
                   client: false,
                   basePath: '<%%= yeoman.app %>/jade',
                   pretty: true
+                  locals: {
+                    imagePath: '<%%= yeoman.master %>/images',
+                    stylePath: '<%%= yeoman.master %>/styles',
+                    scriptPath: '<%%= yeoman.master %>/scripts'
+                  }
                 }
             }
         }
