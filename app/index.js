@@ -19,7 +19,7 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   // resolved to mocha by default (could be switched to jasmine for instance)
   this.hookFor('test-framework', { as: 'app' });
 
-  this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
+  //this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
   this.mainCoffeeFile = 'console.log "\'Allo from CoffeeScript!"';
 
   this.on('end', function () {
@@ -75,7 +75,7 @@ AppGenerator.prototype.askFor = function askFor() {
 };
 
 AppGenerator.prototype.gruntfile = function gruntfile() {
-  this.template('Gruntfile.js');
+  this.template('Gruntfile.coffee');
 };
 
 AppGenerator.prototype.packageJSON = function packageJSON() {
@@ -207,11 +207,11 @@ AppGenerator.prototype.jadeFiles = function jadeFiles() {
 //   if (!this.includeRequireJS) {
 //     return;
 //   }
-// 
+//
 //   this.indexFile = this.appendScripts(this.indexFile, 'scripts/main.js', ['bower_components/requirejs/require.js'], {
 //     'data-main': 'scripts/main'
 //   });
-// 
+//
 //   // add a basic amd module
 //   this.write('app/scripts/app.js', [
 //     '/*global define */',
@@ -220,7 +220,7 @@ AppGenerator.prototype.jadeFiles = function jadeFiles() {
 //     '    return \'\\\'Allo \\\'Allo!\';',
 //     '});'
 //   ].join('\n'));
-// 
+//
 //   this.template('require_main.js', 'app/scripts/main.js');
 // };
 
