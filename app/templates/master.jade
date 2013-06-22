@@ -21,6 +21,18 @@ html
         // CS: Start PlaceHolderMain Snippet
         // MS: <asp:ContentPlaceHolder ID="PlaceHolderMain" runat="server">
         block content
+        // MS: <PublishingControls:EditModePanel runat="server">
+        .edit-mode-panel
+          h2 Edit Mode Panel
+          .inner
+            block edit-mode-panel
+        // PS:
+        style(type='text/css')
+          .edit-mode-panel {
+            display: none;
+          }
+        // PE:
+        // ME: </PublishingControls:EditModePanel>
         // ME: </asp:ContentPlaceHolder>
         // CE: End PlaceHolderMain Snippet
         #footer Master Footer
