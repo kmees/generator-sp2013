@@ -19,7 +19,8 @@ module.exports = (grunt) ->
     app: 'app'
     dist: 'dist',
     tmp: '.tmp',
-    master: '<%= masterSlug %>'
+    master: '<%= masterSlug %>',
+    targetWebDav: '<%= targetWebDav %>'
   for dirKey in ['app', 'dist', 'tmp']
     yeomanConfig["#{dirKey}Master"] = yeomanConfig[dirKey] + '/' + yeomanConfig.master
 
@@ -322,7 +323,16 @@ module.exports = (grunt) ->
         dest: '<%%= yeoman.tmpMaster %>/styles/'
         src: '{,*/}*.css'
       <% } %>
-
+      <% if (targetWebDav) { %>
+      deploy:
+        files: [
+          expand: true
+          dot: false
+          cwd: '<%%= yeoman.dist %>'
+          dest: '<%%= yeoman.targetWebDav %>'
+          src: ['*.html', '<%%= yeoman.master %>/**/*.*']
+        ]
+      <% } %>
     concurrent:
       server: [
         'jade'
@@ -379,9 +389,15 @@ module.exports = (grunt) ->
       'rev'
       'usemin'
     ]
-
+    
     grunt.registerTask 'default', [
       'jshint'
       'test'
       'build'
     ]
+    <% if (targetWebDav) { %>
+    grunt.registerTask 'deploy', [
+      'default'
+      'copy:deploy'
+    ]
+    <% } %>
