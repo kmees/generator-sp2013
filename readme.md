@@ -29,6 +29,14 @@ Layouts project.
 
 Todo...
 
+## WebDAV deployment
+
+Added WebDAV deployment support. 
+
+* Specify your mapped masterpage folder during generator execution
+* execute `grunt deploy` to deploy the processed output automatically to your WebDAV
+
+
 
 ## License
 
