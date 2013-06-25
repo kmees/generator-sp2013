@@ -59,7 +59,12 @@ AppGenerator.prototype.askFor = function askFor() {
     name: 'autoprefixer',
     message: 'Would you like to use autoprefixer for your CSS?',
     default: false
-  }];
+  },
+  {
+    name: 'webDavDeployment',
+    message: 'Provide a WebDAV url to your SharePoint Site'
+  }
+  ];
 
   this.prompt(prompts, function (props) {
     // manually deal with the response, get back and store the results.
@@ -68,6 +73,7 @@ AppGenerator.prototype.askFor = function askFor() {
     this.includeRequireJS = false;//props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
     this.masterName = props.masterName;
+    this.targetWebDav = props.webDavDeployment;
     this.masterSlug = _.slugify(this.masterName);
 
     cb();
