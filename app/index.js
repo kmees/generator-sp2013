@@ -61,8 +61,8 @@ AppGenerator.prototype.askFor = function askFor() {
     default: false
   },
   {
-    name: 'webDavDeployment',
-    message: 'Provide a WebDAV url to your SharePoint Site'
+    name: 'webDavProperty',
+    message: "Provide a property name for the WebDav Root Url (we're looking in ENV and .webdavconf)"
   }
   ];
 
@@ -73,7 +73,7 @@ AppGenerator.prototype.askFor = function askFor() {
     this.includeRequireJS = false;//props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
     this.masterName = props.masterName;
-    this.targetWebDav = props.webDavDeployment;
+    this.webDavProperty = props.webDavProperty;
     this.masterSlug = _.slugify(this.masterName);
 
     cb();
@@ -83,6 +83,10 @@ AppGenerator.prototype.askFor = function askFor() {
 AppGenerator.prototype.gruntfile = function gruntfile() {
   this.template('Gruntfile.coffee');
 };
+
+AppGenerator.prototype.webDavConfig = function webDavConfig(){
+  this.template('_webdavconf.json','.webdavconf.json');
+}
 
 AppGenerator.prototype.packageJSON = function packageJSON() {
   this.template('_package.json', 'package.json');

@@ -1,10 +1,16 @@
 # Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 'use strict'
+nconf = require 'nconf'
+path = require 'path'
 LIVERELOAD_PORT = 35729
 lrSnippet = require('connect-livereload') port: LIVERELOAD_PORT
 mountFolder = (connect, dir) ->
     connect.static require('path').resolve(dir)
 
+getWebDavTarget = () ->
+    nconf.env().file({'file':'.webdavconf.json'})
+    root = nconf.get('<%=webDavProperty%>')
+    path.join root, '/_catalogs/masterpage/'
 # # Globbing
 # for performance reasons we're only matching one level down:
 # 'test/spec/{,*/}*.js'
@@ -20,7 +26,7 @@ module.exports = (grunt) ->
     dist: 'dist',
     tmp: '.tmp',
     master: '<%= masterSlug %>',
-    targetWebDav: '<%= targetWebDav %>'
+    targetWebDav: getWebDavTarget()
   for dirKey in ['app', 'dist', 'tmp']
     yeomanConfig["#{dirKey}Master"] = yeomanConfig[dirKey] + '/' + yeomanConfig.master
 
@@ -328,7 +334,7 @@ module.exports = (grunt) ->
         dest: '<%%= yeoman.tmpMaster %>/styles/'
         src: '{,*/}*.css'
       <% } %>
-      <% if (targetWebDav) { %>
+      <% if (webDavProperty) { %>
       deploy:
         files: [
           expand: true
@@ -417,7 +423,7 @@ module.exports = (grunt) ->
       'test'
       'build'
     ]
-    <% if (targetWebDav) { %>
+    <% if (webDavProperty) { %>
     grunt.registerTask 'deploy', [
       'default'
       'copy:deploy'
