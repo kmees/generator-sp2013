@@ -59,7 +59,12 @@ AppGenerator.prototype.askFor = function askFor() {
     name: 'autoprefixer',
     message: 'Would you like to use autoprefixer for your CSS?',
     default: false
-  }];
+  },
+  {
+    name: 'webDavProperty',
+    message: "Provide a property name for the WebDav Root Url (we're looking in ENV and .webdavconf)"
+  }
+  ];
 
   this.prompt(prompts, function (props) {
     // manually deal with the response, get back and store the results.
@@ -68,6 +73,7 @@ AppGenerator.prototype.askFor = function askFor() {
     this.includeRequireJS = false;//props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
     this.masterName = props.masterName;
+    this.webDavProperty = props.webDavProperty;
     this.masterSlug = _.slugify(this.masterName);
 
     cb();
@@ -77,6 +83,10 @@ AppGenerator.prototype.askFor = function askFor() {
 AppGenerator.prototype.gruntfile = function gruntfile() {
   this.template('Gruntfile.coffee');
 };
+
+AppGenerator.prototype.webDavConfig = function webDavConfig(){
+  this.template('_webdavconf.json','.webdavconf.json');
+}
 
 AppGenerator.prototype.packageJSON = function packageJSON() {
   this.template('_package.json', 'package.json');

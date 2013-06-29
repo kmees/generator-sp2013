@@ -9,7 +9,8 @@
     "sp2013",
     "front-end",
     "HTML Master",
-    "HTML Page Layout"
+    "HTML Page Layout",
+    "WebDavDeployment"
   ],
   "homepage": "https://github.com/kmees/generator-sp2013",
   "bugs": "https://github.com/kmees/generator-sp2013/issues",
@@ -25,13 +26,17 @@
   "dependencies": {
     "yeoman-generator": "~0.12.0",
     "cheerio": "~0.10.8",
-    "underscore.string": "~2.3.1"
+    "underscore.string": "~2.3.1",
+    "nconf": "~0.6.7"
   },
   "peerDependencies": {
     "generator-mocha": "~0.1.1"
   },
   "devDependencies": {
-    "mocha": "~1.9.0"
+    "mocha": "~1.9.0",
+    "underscore.string": "~2.3.1",
+    "cheerio": "~0.10.8",
+    "yeoman-generator": "~0.12.1"
   },
   "engines": {
     "node": ">=0.8.0"
