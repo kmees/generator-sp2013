@@ -61,8 +61,8 @@ AppGenerator.prototype.askFor = function askFor() {
     default: false
   },
   {
-    name: 'webDavProperty',
-    message: "Provide a property name for the WebDav Root Url (we're looking in ENV and .webdavconf)"
+    name: 'webDav',
+    message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE)"
   }
   ];
 
@@ -73,8 +73,11 @@ AppGenerator.prototype.askFor = function askFor() {
     this.includeRequireJS = false;//props.includeRequireJS;
     this.autoprefixer = props.autoprefixer;
     this.masterName = props.masterName;
-    this.webDavProperty = props.webDavProperty;
     this.masterSlug = _.slugify(this.masterName);
+    this.webDav = props.webDav ? {
+      type: (/^[A-Z]+(_[A-Z]+)*$/.test(props.webDav) ? "env" : "path"),
+      value: props.webDav
+    } : null;
 
     cb();
   }.bind(this));
@@ -83,10 +86,6 @@ AppGenerator.prototype.askFor = function askFor() {
 AppGenerator.prototype.gruntfile = function gruntfile() {
   this.template('Gruntfile.coffee');
 };
-
-AppGenerator.prototype.webDavConfig = function webDavConfig(){
-  this.template('_webdavconf.json','.webdavconf.json');
-}
 
 AppGenerator.prototype.packageJSON = function packageJSON() {
   this.template('_package.json', 'package.json');
