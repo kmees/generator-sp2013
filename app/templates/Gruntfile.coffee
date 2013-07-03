@@ -155,6 +155,7 @@ module.exports = (grunt) ->
             imagePath: '<%%= yeoman.master %>/images'
             stylePath: '<%%= yeoman.master %>/styles'
             scriptPath: '<%%= yeoman.master %>/scripts'
+            deploy: false
 
     compass:
       options:
@@ -377,20 +378,23 @@ module.exports = (grunt) ->
       'jasmine'<% } %>
     ]
 
-    grunt.registerTask 'build', [
-      'clean:dist'
-      'jade'
-      'useminPrepare'
-      'concurrent:dist'<% if (autoprefixer) { %>
-      'autoprefixer'<% } %><% if (includeRequireJS) { %>
-      'requirejs'<% } %>
-      'cssmin'
-      'concat'
-      'uglify'
-      'copy:dist'
-      'rev'
-      'usemin'
-    ]
+    grunt.registerTask 'build', ->
+      grunt.config.set ["jade", "html", "options", "locals", "deploy"], true
+
+      grunt.task.run [
+        'clean:dist'
+        'jade'
+        'useminPrepare'
+        'concurrent:dist'<% if (autoprefixer) { %>
+        'autoprefixer'<% } %><% if (includeRequireJS) { %>
+        'requirejs'<% } %>
+        'cssmin'
+        'concat'
+        'uglify'
+        'copy:dist'
+        'rev'
+        'usemin'
+      ]
 
     grunt.registerTask 'default', [
       'jshint'

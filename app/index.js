@@ -138,6 +138,7 @@ AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
 AppGenerator.prototype.jadeFiles = function jadeFiles() {
   this.template('master.jade', 'app/jade/' + this.masterSlug + '.jade');
   this.template('layout.jade', 'app/jade/layout.jade');
+  this.template('_s4-containers.jade', 'app/jade/includes/_s4-containers.jade');
 };
 
 // AppGenerator.prototype.writeIndex = function writeIndex() {
@@ -239,7 +240,7 @@ AppGenerator.prototype.app = function app() {
   this.mkdir('app/styles');
   this.mkdir('app/images');
   this.mkdir('app/jade');
- // this.write('app/jade/' + this.masterSlug +'.jade', this.masterFile);
+  this.mkdir('app/jade/includes');
   this.write('app/scripts/hello.coffee', this.mainCoffeeFile);
   if (!this.includeRequireJS) {
     this.write('app/scripts/main.js', 'console.log(\'\\\'Allo \\\'Allo!\');');
