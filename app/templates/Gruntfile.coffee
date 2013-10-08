@@ -53,10 +53,10 @@ module.exports = (grunt) ->
         tasks: ['typescript:dist']
       typescriptTest:
         files: ['test/spec/{,*/}*.ts']
-        tasks: ['typescript:test'] <% } %>
+        tasks: ['typescript:test'] <% } %><% if (cssPrecompiler === 'compass') { %>
       compass:
         files: ['<%%= yeoman.app %>/syles/{,*/}*.{scss,sass}']
-        tasks: ['compass:server']
+        tasks: ['compass:server']<% } %>
       jade:
         files: ['app/jade/{,*/}*.jade']
         tasks: ['jade']
@@ -146,7 +146,7 @@ module.exports = (grunt) ->
             imagePath: '<%%= yeoman.master %>/images'
             stylePath: '<%%= yeoman.master %>/styles'
             scriptPath: '<%%= yeoman.master %>/scripts'
-            deploy: false
+            deploy: false<% if (cssPrecompiler === 'compass') { %>
 
     compass:
       options:
@@ -164,7 +164,7 @@ module.exports = (grunt) ->
       dist: { }
       server:
         options:
-          debugInfo: true<% if (jsPrecompiler === 'coffee') { %>
+          debugInfo: true<% } %><% if (jsPrecompiler === 'coffee') { %>
 
     coffee:
       dist:
@@ -337,6 +337,20 @@ module.exports = (grunt) ->
 
     # Put files not processed by other tasks here
     copy:
+      server:
+        files: [
+          expand: true
+          dot: true
+          cwd: '<%%= yeoman.app %>/styles'
+          dest: '<%%= yeoman.tmpMaster %>/styles'
+          src: '{,*/}*.css'
+        ,
+          expand: true
+          dot: true
+          cwd: '<%%= yeoman.app %>/scripts'
+          dest: '<%%= yeoman.tmpMaster %>/scripts'
+          src: '{,*/}*.js'
+        ]
       dist:
         files: [
           expand: true
@@ -367,15 +381,16 @@ module.exports = (grunt) ->
     concurrent:
       server: [
         'jade'
-        'compass:server'<% if (jsPrecompiler !== 'js') { %>
+        'copy:server'<% if (cssPrecompiler === 'compass') { %>
+        'compass:server'<% } %><% if (jsPrecompiler !== 'js') { %>
         '<%= jsPrecompiler + ":dist" %>'<% } %>
       ]
       test: [<% if (jsPrecompiler !== 'js') { %>
         '<%= jsPrecompiler %>'<% } %>
       ]
-      dist: [<% if (jsPrecompiler !== 'js') { %>
+      dist: [<% if (cssPrecompiler === 'compass') { %>
+        'compass'<% } %><% if (jsPrecompiler !== 'js') { %>
         '<%= jsPrecompiler %>'<% } %>
-        'compass'
         'imagemin'
         'svgmin'
         'htmlmin'

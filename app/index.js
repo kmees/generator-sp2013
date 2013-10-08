@@ -73,21 +73,32 @@ AppGenerator.prototype.askFor = function askFor() {
     default: 0
   },
   {
+    name: 'cssPrecompiler',
+    type: 'list',
+    message: 'What css precompiler do you want to use?',
+    choices: [
+      { name: "None", value: "css" },
+      { name: "Compass (SCSS/SASS)", value: "compass" }
+    ],
+    default: 0
+  },
+  {
     name: 'webDav',
     message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE or nothing)"
   }
   ];
 
-  this.prompt(prompts, function (props) {
+  this.prompt(prompts, function (answers) {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
-    this.masterName = props.masterName;
+    this.masterName = answers.masterName;
     this.masterSlug = _.slugify(this.masterName);
-    this.webDav = props.webDav ? {
-      type: (/^[A-Z]+(_[A-Z]+)*$/.test(props.webDav) ? "env" : "path"),
-      value: props.webDav
+    this.webDav = answers.webDav ? {
+      type: (/^[A-Z]+(_[A-Z]+)*$/.test(answers.webDav) ? "env" : "path"),
+      value: answers.webDav
     } : null;
-    this.jsPrecompiler = props.jsPrecompiler;
+    this.jsPrecompiler = answers.jsPrecompiler;
+    this.cssPrecompiler = answers.cssPrecompiler;
 
     cb();
   }.bind(this));
@@ -124,7 +135,7 @@ AppGenerator.prototype.h5bp = function h5bp() {
 };
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
-  if (this.compassBootstrap) {
+  if (this.cssPrecompiler === 'compass') {
     this.copy('main.scss', 'app/styles/main.scss');
   } else {
     this.copy('main.css', 'app/styles/main.css');
