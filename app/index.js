@@ -28,6 +28,10 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
       ext: 'ls',
       content: 'console.log "\'Allo from LiveScript!"',
     },
+    type: {
+      ext: 'ts',
+      content: 'console.log("\'Allo from TypeScript!");'
+    },
     js: {
       ext: 'js',
       content: 'console.log("\'Allo from JavaScript!");'
@@ -63,6 +67,7 @@ AppGenerator.prototype.askFor = function askFor() {
     choices: [
       { name: "None", value: "js" },
       { name: "CoffeeScript", value: "coffee" },
+      { name: "TypeScript", value: "type" },
       { name: "LiveScript", value: "live" },
     ],
     default: 0
