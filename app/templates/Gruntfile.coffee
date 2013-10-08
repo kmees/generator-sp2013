@@ -14,8 +14,10 @@ mountFolder = (connect, dir) ->
 # 'test/spec/**/*.js'
 
 module.exports = (grunt) ->
+  # show elapsed time at the end
+  require('time-grunt')(grunt);
   # load all grunt tasks
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
+  require('load-grunt-tasks')(grunt);
 
   yeomanConfig =
     app: 'app'
