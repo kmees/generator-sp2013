@@ -37,13 +37,19 @@ module.exports = (grunt) ->
         nospawn: false
         liverleoad: false
       gruntfile:
-        files: ['Gruntfile.{js,coffee}']
+        files: ['Gruntfile.{js,coffee}']<% if (jsPrecompiler === 'coffee') { %>
       coffee:
         files: ['<%%= yeoman.app %>/scripts/{,*/}*.coffee']
         tasks: ['coffee:dist']
       coffeeTest:
         files: ['test/spec/{,*/}*.coffee']
-        tasks: ['coffee:test']
+        tasks: ['coffee:test'] <% } else if (jsPrecompiler === 'live') { %>
+      live:
+        files: ['<%%= yeoman.app %>/scripts/{,*/}*.ls']
+        tasks: ['live:dist']
+      liveTest:
+        files: ['test/spec/{,*/}*.ls']
+        tasks: ['live:test'] <% } %>
       compass:
         files: ['<%%= yeoman.app %>/syles/{,*/}*.{scss,sass}']
         tasks: ['compass:server']
@@ -118,24 +124,6 @@ module.exports = (grunt) ->
 
     # Template compilers
 
-    coffee:
-      dist:
-        files: [
-          expand: true
-          cwd: '<%%= yeoman.app %>/scripts'
-          src: '{,*/}*.coffee'
-          dest: '<%%= yeoman.tmpMaster %>/scripts'
-          ext: '.js'
-        ]
-      test:
-        files: [
-          expand: true
-          cwd: 'test/spec'
-          src: '{,*/}*.coffee'
-          dest: '.tmp/spec'
-          ext: '.js'
-        ]
-
     jade:
       html:
         src: [
@@ -170,7 +158,44 @@ module.exports = (grunt) ->
       dist: { }
       server:
         options:
-          debugInfo: true
+          debugInfo: true<% if (jsPrecompiler === 'coffee') { %>
+
+    coffee:
+      dist:
+        files: [
+          expand: true
+          cwd: '<%%= yeoman.app %>/scripts'
+          src: '{,*/}*.coffee'
+          dest: '<%%= yeoman.tmpMaster %>/scripts'
+          ext: '.js'
+        ]
+      test:
+        files: [
+          expand: true
+          cwd: 'test/spec'
+          src: '{,*/}*.coffee'
+          dest: '.tmp/spec'
+          ext: '.js'
+        ]
+<% } else if (jsPrecompiler === 'live') { %>
+
+    live:
+      dist:
+        files: [
+          expand: true
+          cwd: '<%%= yeoman.app %>/scripts'
+          src: '{,*/}*.ls'
+          dest: '<%%= yeoman.tmpMaster %>/scripts'
+          ext: '.js'
+        ]
+      test:
+        files: [
+          expand: true
+          cwd: 'test/spec'
+          src: '{,*/}*.ls'
+          dest: '.tmp/spec'
+          ext: '.js'
+        ]<% } %>
 
     # Minify assets
 
@@ -317,14 +342,14 @@ module.exports = (grunt) ->
     concurrent:
       server: [
         'jade'
-        'compass:server'
-        'coffee:dist'
+        'compass:server'<% if (jsPrecompiler !== 'js') { %>
+        '<%= jsPrecompiler + ":dist" %>'<% } %>
       ]
-      test: [
-        'coffee'
+      test: [<% if (jsPrecompiler !== 'js') { %>
+        '<%= jsPrecompiler %>'<% } %>
       ]
-      dist: [
-        'coffee'
+      dist: [<% if (jsPrecompiler !== 'js') { %>
+        '<%= jsPrecompiler %>'<% } %>
         'compass'
         'imagemin'
         'svgmin'

@@ -51,28 +51,4 @@ describe('Webapp generator test', function () {
       done();
     });
   });
-
-  it('creates expected files in AMD mode', function (done) {
-    var expected= [
-      ['bower.json', /"name": "temp"/],
-      ['package.json', /"name": "temp"/],
-      'Gruntfile.js',
-      'app/favicon.ico',
-      'app/index.html',
-      ['app/scripts/main.js', /require\.config/],
-      'app/styles/main.scss'
-    ];
-
-    helpers.mockPrompt(this.webapp, {
-      'compassBootstrap': 'Y',
-      'includeRequireJS': 'Y',
-      'autoprefixer': 'N'
-    });
-
-    this.webapp.options['skip-install'] = true;
-    this.webapp.run({}, function () {
-      helpers.assertFiles(expected);
-      done();
-    });
-  });
 });

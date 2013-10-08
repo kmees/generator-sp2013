@@ -19,11 +19,26 @@ var AppGenerator = module.exports = function Appgenerator(args, options, config)
   // resolved to mocha by default (could be switched to jasmine for instance)
   this.hookFor('test-framework', { as: 'app' });
 
-  //this.indexFile = this.readFileAsString(path.join(this.sourceRoot(), 'index.html'));
-  this.mainCoffeeFile = 'console.log "\'Allo from CoffeeScript!"';
+  this.mainPrecompilerFile = {
+    coffee: {
+      ext: 'coffee',
+      content: 'console.log "\'Allo from CoffeeScript!"',
+    },
+    live: {
+      ext: 'ls',
+      content: 'console.log "\'Allo from LiveScript!"',
+    },
+    js: {
+      ext: 'js',
+      content: 'console.log("\'Allo from JavaScript!");'
+    }
+  };
 
   this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+    this.installDependencies({
+      skipInstall: options['skip-install'],
+      skipMessage: options['skip-install-message']
+    });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -43,11 +58,22 @@ AppGenerator.prototype.askFor = function askFor() {
     message: 'What is the name of your master file?'
   },
   {
-    type: 'confirm',
-    name: 'compassBootstrap',
-    message: 'Would you like to include Twitter Bootstrap for Sass?',
-    default: true
+    name: 'jsPrecompiler',
+    type: 'list',
+    message: 'What js precompiler do you want to use?',
+    choices: [
+      { name: "None", value: "js" },
+      { name: "CoffeeScript", value: "coffee" },
+      { name: "LiveScript", value: "live" },
+    ],
+    default: 0
   },
+  // {
+  //   type: 'confirm',
+  //   name: 'compassBootstrap',
+  //   message: 'Would you like to include Twitter Bootstrap for Sass?',
+  //   default: true
+  // },
   {
     name: 'webDav',
     message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE)"
@@ -57,13 +83,13 @@ AppGenerator.prototype.askFor = function askFor() {
   this.prompt(prompts, function (props) {
     // manually deal with the response, get back and store the results.
     // we change a bit this way of doing to automatically do this in the self.prompt() method.
-    this.compassBootstrap = props.compassBootstrap;
     this.masterName = props.masterName;
     this.masterSlug = _.slugify(this.masterName);
     this.webDav = props.webDav ? {
       type: (/^[A-Z]+(_[A-Z]+)*$/.test(props.webDav) ? "env" : "path"),
       value: props.webDav
     } : null;
+    this.jsPrecompiler = props.jsPrecompiler;
 
     cb();
   }.bind(this));
@@ -134,5 +160,6 @@ AppGenerator.prototype.app = function app() {
   this.mkdir('app/images');
   this.mkdir('app/jade');
   this.mkdir('app/jade/includes');
-  this.write('app/scripts/hello.coffee', this.mainCoffeeFile);
+  var precompilerFile = this.mainPrecompilerFile[this.jsPrecompiler];
+  this.write('app/scripts/hello.' + precompilerFile.ext, precompilerFile.content);
 };
