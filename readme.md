@@ -19,23 +19,48 @@ Layouts project.
   Skips the automatic execution of `bower` and `npm` after
   scaffolding has finished.
 
+* `--skip-install-message`
+
+  Hides the output of `bower` and `npm`.
+
+* `--skip-welcome-message`
+
+  Skips the welcome message.
+
 * `--test-framework=[framework]`
 
   Defaults to `mocha`. Can be switched for
   another supported testing framework like `jasmine`.
 
+## Features
 
-## Contribute
+The following features are currently supported by the SP2013 generator.
 
-Todo...
+### JS Precompilers
 
-## WebDAV deployment
+The following JS Precompilers are supported:
 
-Added WebDAV deployment support. 
+  * CoffeeScript
+  * TypeScript
+  * LiveScript
 
-* Specify your mapped masterpage folder during generator execution
-* execute `grunt deploy` to deploy the processed output automatically to your WebDAV
+Using a JS Precompiler is not required.
 
+### CSS Precompilers
+
+The following CSS Precompilers are supported:
+
+  * Compass (SCSS/SASS)
+
+Using a CSS Precompiler is not required.
+
+### WebDAV deployment
+
+Grunt task for deploying your project to SharePoint via WebDav. Supports either
+an absolute WebDav path (single developer) or a WebDav path stored in an
+environment variable (multiple developers).
+
+Grunt Task: `grunt deploy`
 
 
 ## License
