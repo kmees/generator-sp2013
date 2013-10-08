@@ -385,9 +385,9 @@ module.exports = (grunt) ->
         'clean:dist'
         'jade'
         'useminPrepare'
-        'concurrent:dist'<% if (autoprefixer) { %>
-        'autoprefixer'<% } %><% if (includeRequireJS) { %>
-        'requirejs'<% } %>
+      'concurrent:dist'<% if (autoprefixer) { %>
+      'autoprefixer'<% } %><% if (includeRequireJS) { %>
+      'requirejs'<% } %>
         'cssmin'
         'concat'
         'uglify'
