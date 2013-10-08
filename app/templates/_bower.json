@@ -1,9 +1,7 @@
 {
-  "name": "<%= _.slugify(appname) %>",
+  "name": "<%= masterSlug %>",
   "version": "0.0.0",
-  "dependencies": {<% if (compassBootstrap) { %>
-    "sass-bootstrap": "~2.3.0",<% } %>
-    "modernizr": "~2.6.2",
+  "dependencies": {
     "jquery": "~1.9.1",
     "sp2013-css": "latest"
   },
