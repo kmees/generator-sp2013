@@ -21,8 +21,8 @@ module.exports = (grunt) ->
     app: 'app'
     dist: 'dist',
     tmp: '.tmp',
-    master: '<%= masterSlug %>',
-    deploy: <%= webDav.type === "env" ? "process.env." + webDav.value : "'" + webDav.value + "'" %>
+    master: '<%= masterSlug %>'<% if (webDav) { %>,
+    deploy: <%= webDav.type === "env" ? "process.env." + webDav.value : "'" + webDav.value + "'" %><% } %>
 
   for dirKey in ['app', 'dist', 'tmp']
     yeomanConfig["#{dirKey}Master"] = yeomanConfig[dirKey] + '/' + yeomanConfig.master

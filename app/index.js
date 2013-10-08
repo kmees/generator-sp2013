@@ -51,7 +51,6 @@ AppGenerator.prototype.askFor = function askFor() {
 
   // welcome message
   console.log(this.yeoman);
-  console.log('Out of the box I include HTML5 Boilerplate, jQuery and Modernizr.');
 
   var prompts = [{
     name: 'masterName',
@@ -76,7 +75,7 @@ AppGenerator.prototype.askFor = function askFor() {
   // },
   {
     name: 'webDav',
-    message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE)"
+    message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE or nothing)"
   }
   ];
 
