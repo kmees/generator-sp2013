@@ -49,7 +49,13 @@ module.exports = (grunt) ->
         tasks: ['live:dist']
       liveTest:
         files: ['test/spec/{,*/}*.ls']
-        tasks: ['live:test'] <% } %>
+        tasks: ['live:test'] <% } else if (jsPrecompiler === 'type') { %>
+      type:
+        files: ['<%%= yeoman.app %>/scripts/{,*/}*.ts']
+        tasks: ['type:dist']
+      typeTest:
+        files: ['test/spec/{,*/}*.ts']
+        tasks: ['type:test'] <% } %>
       compass:
         files: ['<%%= yeoman.app %>/syles/{,*/}*.{scss,sass}']
         tasks: ['compass:server']
@@ -193,6 +199,25 @@ module.exports = (grunt) ->
           expand: true
           cwd: 'test/spec'
           src: '{,*/}*.ls'
+          dest: '.tmp/spec'
+          ext: '.js'
+        ]
+<% } else if (jsPrecompiler === 'type') { %>
+
+    type:
+      dist:
+        files: [
+          expand: true
+          cwd: '<%%= yeoman.app %>/scripts'
+          src: '{,*/}*.ts'
+          dest: '<%%= yeoman.tmpMaster %>/scripts'
+          ext: '.js'
+        ]
+      test:
+        files: [
+          expand: true
+          cwd: 'test/spec'
+          src: '{,*/}*.ts'
           dest: '.tmp/spec'
           ext: '.js'
         ]<% } %>
