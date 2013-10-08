@@ -72,12 +72,6 @@ AppGenerator.prototype.askFor = function askFor() {
     ],
     default: 0
   },
-  // {
-  //   type: 'confirm',
-  //   name: 'compassBootstrap',
-  //   message: 'Would you like to include Twitter Bootstrap for Sass?',
-  //   default: true
-  // },
   {
     name: 'webDav',
     message: "Where would you like to deploy to? (/path/to/WebDav or ENV_VARIABLE or nothing)"
@@ -127,20 +121,6 @@ AppGenerator.prototype.editorConfig = function editorConfig() {
 
 AppGenerator.prototype.h5bp = function h5bp() {
   this.copy('favicon.ico', 'app/images/favicon.ico');
-};
-
-AppGenerator.prototype.bootstrapImg = function bootstrapImg() {
-  if (this.compassBootstrap) {
-    this.copy('glyphicons-halflings.png', 'app/images/glyphicons-halflings.png');
-    this.copy('glyphicons-halflings-white.png', 'app/images/glyphicons-halflings-white.png');
-  }
-};
-
-AppGenerator.prototype.bootstrapJs = function bootstrapJs() {
-  // TODO: create a Bower component for this
-  if (this.compassBootstrap) {
-    this.copy('bootstrap.js', 'app/scripts/vendor/bootstrap.js');
-  }
 };
 
 AppGenerator.prototype.mainStylesheet = function mainStylesheet() {
