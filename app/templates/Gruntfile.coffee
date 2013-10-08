@@ -2,10 +2,6 @@
 'use strict'
 
 path = require 'path'
-LIVERELOAD_PORT = 35729
-lrSnippet = require('connect-livereload') port: LIVERELOAD_PORT
-mountFolder = (connect, dir) ->
-    connect.static require('path').resolve(dir)
 
 # # Globbing
 # for performance reasons we're only matching one level down:
@@ -45,19 +41,19 @@ module.exports = (grunt) ->
         tasks: ['coffee:dist']
       coffeeTest:
         files: ['test/spec/{,*/}*.coffee']
-        tasks: ['coffee:test'] <% } else if (jsPrecompiler === 'live') { %>
-      live:
+        tasks: ['coffee:test'] <% } else if (jsPrecompiler === 'livescript') { %>
+      livescript:
         files: ['<%%= yeoman.app %>/scripts/{,*/}*.ls']
-        tasks: ['live:dist']
-      liveTest:
+        tasks: ['livescript:dist']
+      livescriptTest:
         files: ['test/spec/{,*/}*.ls']
-        tasks: ['live:test'] <% } else if (jsPrecompiler === 'type') { %>
-      type:
+        tasks: ['livescript:test'] <% } else if (jsPrecompiler === 'typescript') { %>
+      typescript:
         files: ['<%%= yeoman.app %>/scripts/{,*/}*.ts']
-        tasks: ['type:dist']
-      typeTest:
+        tasks: ['typescript:dist']
+      typescriptTest:
         files: ['test/spec/{,*/}*.ts']
-        tasks: ['type:test'] <% } %>
+        tasks: ['typescript:test'] <% } %>
       compass:
         files: ['<%%= yeoman.app %>/syles/{,*/}*.{scss,sass}']
         tasks: ['compass:server']
@@ -66,7 +62,7 @@ module.exports = (grunt) ->
         tasks: ['jade']
       livereload:
         options:
-          livereload: LIVERELOAD_PORT
+          livereload: '<%%= connect.options.livereload %>'
         files: [
           '{<%%= yeoman.tmp %>,<%%= yeoman.app %>}/*.html',
           '{<%%= yeoman.tmpMaster %>,<%%= yeoman.app %>}/styles/{,*/}*.css',
@@ -78,24 +74,26 @@ module.exports = (grunt) ->
       options:
         port: 9000
         hostname: 'localhost' # change this to '0.0.0.0' to access the server from outside
+        livereload: 35729
       livereload:
         options:
-          middleware: (connect) -> [
-            lrSnippet
-            mountFolder connect, yeomanConfig.tmp
-            mountFolder connect, yeomanConfig.app
+          open: true
+          base: [
+            '<%%= yeoman.tmp %>'
+            '<%%= yeoman.app %>'
           ]
       test:
         options:
-          middleware: (connect) -> [
-            mountFolder connect, yeomanConfig.tmp
-            mountFolder connect, 'test'
+          base: [
+            '<%%= yeoman.tmp %>'
+            '<%%= yeoman.test %>'
+            '<%%= yeoman.app %>'
           ]
       dist:
         options:
-          middleware: (connect) -> [
-            mountFolder connect, yeomanConfig.dist
-          ]
+          open: true
+          base: '<%%= yeoman.dist %>'
+          livereload: false
 
     jshint:
       options:
@@ -110,7 +108,7 @@ module.exports = (grunt) ->
       all:
         options:
           run: true
-          urls: ['http://localhost:<%%= connect.options.port %>/index.html']
+          urls: ['http://<%%= connect.test.options.hostname %>:<%%= connect.test.options.port %>/index.html']
 <% } else if (testFramework === 'jasmin') { %>
     jasmine:
       all:
@@ -185,9 +183,9 @@ module.exports = (grunt) ->
           dest: '.tmp/spec'
           ext: '.js'
         ]
-<% } else if (jsPrecompiler === 'live') { %>
+<% } else if (jsPrecompiler === 'livescript') { %>
 
-    live:
+    livescript:
       dist:
         files: [
           expand: true
@@ -204,9 +202,9 @@ module.exports = (grunt) ->
           dest: '.tmp/spec'
           ext: '.js'
         ]
-<% } else if (jsPrecompiler === 'type') { %>
+<% } else if (jsPrecompiler === 'typescript') { %>
 
-    type:
+    typescript:
       dist:
         files: [
           expand: true
